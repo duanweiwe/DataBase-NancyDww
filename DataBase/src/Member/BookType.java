@@ -8,6 +8,11 @@ public class BookType {
 	BookType(){
 		
 	}
+	public BookType(int n1,String s1,String s2){
+		this.TypeId=n1;
+		this.TypeNO=s1;
+		this.TypeName=s2;
+	}
 	public int getTypeId() {
 		return TypeId;
 	}

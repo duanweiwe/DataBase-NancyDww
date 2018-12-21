@@ -1,15 +1,21 @@
 package Member;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class ReturnInfo {
 
 	private int Id;
-	private String UserId;
+	private int UserId;
 	private int BookId;
 	private Date ReturnTime;
 	ReturnInfo(){
 		
+	}
+    public ReturnInfo(int id,int uid,int bid,Date d){
+		this.Id=id;
+		this.UserId=uid;
+		this.BookId=bid;
+		this.ReturnTime=d;
 	}
 	public int getId() {
 		return Id;
@@ -17,10 +23,10 @@ public class ReturnInfo {
 	public void setId(int id) {
 		Id = id;
 	}
-	public String getUserId() {
+	public int getUserId() {
 		return UserId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		UserId = userId;
 	}
 	public int getBookId() {
