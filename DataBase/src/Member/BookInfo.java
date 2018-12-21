@@ -5,10 +5,17 @@ public class BookInfo {
 	private int BookId;
 	private String ISBN;
 	private String BookName;
-	private int StoreNumber;
-	private String BookShelfId;
+	private int ShelfId;
+	private String BookStatus;
 	BookInfo(){
 		
+	}
+	public BookInfo(int id,String s1,String s2,int n,String s3){
+		this.BookId=id;
+		this.ISBN=s1;
+		this.BookName=s2;
+		this.ShelfId=n;
+		this.BookStatus=s3;
 	}
 	public int getBookId() {
 		return BookId;
@@ -28,16 +35,18 @@ public class BookInfo {
 	public void setBookName(String bookName) {
 		BookName = bookName;
 	}
-	public int getStoreNumber() {
-		return StoreNumber;
+	public int getShelfId() {
+		return ShelfId;
 	}
-	public void setStoreNumber(int storeNumber) {
-		StoreNumber = storeNumber;
+	public void setShelfId(int shelfId) {
+		ShelfId = shelfId;
 	}
-	public String getBookShelfId() {
-		return BookShelfId;
+	public String getBookStatus() {
+		return BookStatus;
 	}
-	public void setBookShelfId(String bookShelfId) {
-		BookShelfId = bookShelfId;
+	public void setBookStatus(String bookStatus) {
+		BookStatus = bookStatus;
 	}
+	
+	
 }

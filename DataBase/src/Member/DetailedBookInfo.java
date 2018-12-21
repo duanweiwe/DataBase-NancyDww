@@ -2,6 +2,7 @@ package Member;
 
 public class DetailedBookInfo {
 
+	private int Id;
 	private int BookId;
 	private String Author;
 	private String Description;
@@ -10,9 +11,23 @@ public class DetailedBookInfo {
 	private String ContactWay;
 	private String ISOService;
 	private String LoaderShape;
-	private String PublishingHouse;
+	private String PublishingInformation;
 	private String Topic;
 	DetailedBookInfo(){
+		
+	}
+	public DetailedBookInfo(int id,int bid,String a,String d,float p,String c,String contact,String i,String l,String pi,String t){
+		this.Id=id;
+		this.BookId=bid;
+		this.Author=a;
+		this.Description=d;
+		this.Price=p;
+		this.Catalog=c;
+		this.ContactWay=contact;
+		this.ISOService=i;
+		this.LoaderShape=l;
+		this.PublishingInformation=pi;
+		this.Topic=t;
 		
 	}
 	public int getBookId() {
@@ -63,17 +78,24 @@ public class DetailedBookInfo {
 	public void setLoaderShape(String loaderShape) {
 		LoaderShape = loaderShape;
 	}
-	public String getPublishingHouse() {
-		return PublishingHouse;
-	}
-	public void setPublishingHouse(String publishingHouse) {
-		PublishingHouse = publishingHouse;
-	}
+	
 	public String getTopic() {
 		return Topic;
 	}
 	public void setTopic(String topic) {
 		Topic = topic;
+	}
+	public int getId() {
+		return Id;
+	}
+	public void setId(int id) {
+		Id = id;
+	}
+	public String getPublishingInformation() {
+		return PublishingInformation;
+	}
+	public void setPublishingInformation(String publishingInformation) {
+		PublishingInformation = publishingInformation;
 	}
 	
 }

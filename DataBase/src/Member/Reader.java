@@ -2,7 +2,7 @@ package Member;
 
 public class Reader {
 
-	private String UserId;
+	private int UserId;
 	private String UserName;
 	private String Password;
 	private String UserType;
@@ -13,7 +13,18 @@ public class Reader {
 	private String Phone;
 	private int BorrowTimes;
 	Reader(){}
-	
+	public Reader(int u,String name,String p,String type,String e,String b,String id,String s,String ph,int bt){
+		this.UserId=u;
+		this.UserName=name;
+		this.Password=p;
+		this.UserType=type;
+		this.Email=e;
+		this.BarCode=b;
+		this.IDCard=id;
+		this.Sex=s;
+		this.Phone=ph;
+		this.BorrowTimes=bt;
+	}
 	public String getUserName() {
 		return UserName;
 	}
@@ -69,11 +80,11 @@ public class Reader {
 		BorrowTimes = borrowTimes;
 	}
 
-	public String getUserId() {
+	public int getUserId() {
 		return UserId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		UserId = userId;
 	}
 	

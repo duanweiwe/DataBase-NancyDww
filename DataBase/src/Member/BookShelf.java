@@ -1,13 +1,22 @@
 package Member;
 
 public class BookShelf {
+	private int Id;
 	private String ShelfNo;
 	private String ShelfName;
 	private String Location;
-	private String RoomId;
+	private int RoomId;
 	private int Capacity;
 	BookShelf(){
 		
+	}
+	public BookShelf(int n1,String s1,String s2,int n2,String s3,int n3 ){
+		this.Id=n1;
+		this.ShelfNo=s1;
+		this.ShelfName=s2;
+		this.Location=s3;
+		this.RoomId=n3;
+		this.Capacity=n2;
 	}
 	public String getShelfNo() {
 		return ShelfNo;
@@ -27,10 +36,10 @@ public class BookShelf {
 	public void setLocation(String location) {
 		Location = location;
 	}
-	public String getRoomId() {
+	public int getRoomId() {
 		return RoomId;
 	}
-	public void setRoomId(String roomId) {
+	public void setRoomId(int roomId) {
 		RoomId = roomId;
 	}
 	public int getCapacity() {
@@ -39,4 +48,11 @@ public class BookShelf {
 	public void setCapacity(int capacity) {
 		Capacity = capacity;
 	}
+	public int getId() {
+		return Id;
+	}
+	public void setId(int id) {
+		Id = id;
+	}
+	
 }
