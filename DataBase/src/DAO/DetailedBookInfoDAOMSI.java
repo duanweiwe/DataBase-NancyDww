@@ -11,9 +11,9 @@ import Member.*;
 
 public class DetailedBookInfoDAOMSI extends DAOBase implements DetailedBookInfoDAO {
 
-	private static final String insertDetailSQL="insert into DetailedBookInfo(BookId,Author,Description,Price,Catalog,ContactWay,ISOService,LoaderShape,PublishingInformation,Topic) values(?,?,?,?,?,?,?,?,?,?)";
+	private static final String insertDetailSQL="insert into DetailedBookInfo(BookId,FirstAuthor,Description,Price,Catalog,ContactWay,ISOService,LoaderShape,PublishingInformation,Topic,SecondAuthor) values(?,?,?,?,?,?,?,?,?,?,?)";
 	@Override
-	public void insertDetailedInfo(DetailedBookInfo dbi) {
+	public int insertDetailedInfo(DetailedBookInfo dbi) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -30,19 +30,22 @@ public class DetailedBookInfoDAOMSI extends DAOBase implements DetailedBookInfoD
 			pstm.setString(8, dbi.getLoaderShape());
 			pstm.setString(9, dbi.getPublishingInformation());
 			pstm.setString(10, dbi.getTopic());
+			pstm.setString(11, dbi.getSecondAuthor());
 			
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
-	private static final String updateDetailSQL="update DetailedBookInfo set Author=?,Description=?,Price=?,Catalog=?,ContactWay=?,ISOService=?,LoaderShape=?,PublishingInformation=?,Topic=? where BookId=?";
+	private static final String updateDetailSQL="update DetailedBookInfo set FirstAuthor=?,Description=?,Price=?,Catalog=?,ContactWay=?,ISOService=?,LoaderShape=?,PublishingInformation=?,Topic=?,SecondAuthor=? where BookId=?";
 
 	@Override
-	public void updateDetailedInfo(DetailedBookInfo dbi) {
+	public int updateDetailedInfo(DetailedBookInfo dbi) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -59,50 +62,56 @@ public class DetailedBookInfoDAOMSI extends DAOBase implements DetailedBookInfoD
 			pstm.setString(7, dbi.getLoaderShape());
 			pstm.setString(8, dbi.getPublishingInformation());
 			pstm.setString(9, dbi.getTopic());
-			pstm.setInt(10, dbi.getBookId());
+			pstm.setString(10, dbi.getSecondAuthor());
+			
+			pstm.setInt(11, dbi.getBookId());
 			
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 
+		return -1;
 	}
-	private static final String deleteDetailSQL="delete from DetailedBookInfo where BookId=";
+	private static final String deleteDetailSQL="delete from DetailedBookInfo where BookId=?";
 	@Override
-	public void deleteDetailedInfo(int bid) {
+	public int deleteDetailedInfo(int bid) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		try{
 			conn = getConnection();
-			String str = deleteDetailSQL+bid;
-			pstm=conn.createStatement();
 			
-			pstm.executeUpdate(str);
+			pstm=conn.prepareStatement(deleteDetailSQL);
+			pstm.setInt(1, bid);
+			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
 	
-	private static final String getDetailSQL="select Id,BookId,Author,Description,Price,Catalog,ContactWay,ISOService,LoaderShape,PublishingInformation,Topic from DetailedBookInfo where BookId=";
+	private static final String getDetailSQL="select Id,BookId,FirstAuthor,Description,Price,Catalog,ContactWay,ISOService,LoaderShape,PublishingInformation,Topic,SecondAuthor from DetailedBookInfo where BookId=?";
 	@Override
 	public DetailedBookInfo getDetailedInfo(int bid) {
 		
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try{
 			conn = getConnection();
-			pstm=conn.createStatement();
-			String str = getDetailSQL+String.valueOf(bid);
-			rs=pstm.executeQuery(str);
+			pstm=conn.prepareStatement(getDetailSQL);
+			pstm.setInt(1, bid);
+			rs=pstm.executeQuery();
 			DetailedBookInfo temp = null;
 			while(rs.next())
-				temp = new DetailedBookInfo(rs.getInt("Id"),rs.getInt("BookId"),rs.getString("Author"),rs.getString("Description"),rs.getFloat("Price"),rs.getString("Catalog"),rs.getString("ContactWay"),rs.getString("ISOService"),rs.getString("LoaderShape"),rs.getString("PublishingInformation"),rs.getString("Topic"));
+				temp = new DetailedBookInfo(rs.getInt("Id"),rs.getInt("BookId"),rs.getString("FirstAuthor"),rs.getString("Description"),rs.getFloat("Price"),rs.getString("Catalog"),rs.getString("ContactWay"),rs.getString("ISOService"),rs.getString("LoaderShape"),rs.getString("PublishingInformation"),rs.getString("Topic"),rs.getString("SecondAuthor"));
 			rs.close();
 			pstm.close();
 			conn.close();
@@ -112,22 +121,22 @@ public class DetailedBookInfoDAOMSI extends DAOBase implements DetailedBookInfoD
 		}
 		return null;
 	}
-	private static final String getDetailSQL2="select Id,BookId,Author,Description,Price,Catalog,ContactWay,ISOService,LoaderShape,PublishingInformation,Topic from DetailedBookInfo where Topic=";
+	private static final String getDetailSQL2="select Id,BookId,FirstAuthor,Description,Price,Catalog,ContactWay,ISOService,LoaderShape,PublishingInformation,Topic,SecondAuthor from DetailedBookInfo where Topic=?";
 	@Override
 	public List<DetailedBookInfo> getDetailedInfo(String topic) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try{
 			conn = getConnection();
-			pstm=conn.createStatement();
-			String str = getDetailSQL2+topic;
-			rs=pstm.executeQuery(str);
+			pstm=conn.prepareStatement(getDetailSQL2);
+			pstm.setString(1, topic);
+			rs=pstm.executeQuery();
 			DetailedBookInfo temp = null;
 			List<DetailedBookInfo> bl=new ArrayList<DetailedBookInfo>();
 			while(rs.next())
 			{
-				temp = new DetailedBookInfo(rs.getInt("Id"),rs.getInt("BookId"),rs.getString("Author"),rs.getString("Description"),rs.getFloat("Price"),rs.getString("Catalog"),rs.getString("ContactWay"),rs.getString("ISOService"),rs.getString("LoaderShape"),rs.getString("PublishingInformation"),rs.getString("Topic"));
+				temp = new DetailedBookInfo(rs.getInt("Id"),rs.getInt("BookId"),rs.getString("FirstAuthor"),rs.getString("Description"),rs.getFloat("Price"),rs.getString("Catalog"),rs.getString("ContactWay"),rs.getString("ISOService"),rs.getString("LoaderShape"),rs.getString("PublishingInformation"),rs.getString("Topic"),rs.getString("SecondAuthor"));
 				bl.add(temp);
 			}
 			rs.close();

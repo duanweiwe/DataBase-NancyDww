@@ -9,7 +9,7 @@ public class Reservation {
 	private int BookId;
 	private Timestamp ReserveTime;
 	
-	Reservation(){
+	public Reservation(){
 		
 	}
 	public Reservation(int id,int uid,int bid,Timestamp t){

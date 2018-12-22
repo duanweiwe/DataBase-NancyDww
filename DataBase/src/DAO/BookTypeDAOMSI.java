@@ -10,18 +10,18 @@ import Member.BookType;
 
 public class BookTypeDAOMSI extends DAOBase implements BookTypeDAO {
 
-	private static final String getTypeSQL="select TypeId,TypeNO,TypeName from BookType where TypeId=";
+	private static final String getTypeSQL="select TypeId,TypeNO,TypeName from BookType where TypeId=?";
 	@Override
 	public BookType getBookType(int id) {
 		
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try{
 			conn = getConnection();
-			pstm=conn.createStatement();
-			String str = getTypeSQL+String.valueOf(id);
-			rs=pstm.executeQuery(str);
+			pstm = conn.prepareStatement(getTypeSQL);
+			pstm.setInt(1, id);
+			rs=pstm.executeQuery();
 			BookType temp = null;
 			while(rs.next())
 				temp = new BookType(rs.getInt("TypeId"),rs.getString("TypeNO"),rs.getString("TypeName"));
@@ -35,8 +35,8 @@ public class BookTypeDAOMSI extends DAOBase implements BookTypeDAO {
 		return null;
 	}
 
-	private static final String insertTypeSQL="insert into BookShelf(TypeNO,TypeName) values(?,?)";
-	public void insertBookType(BookType bt) {
+	private static final String insertTypeSQL="insert into BookType(TypeNO,TypeName) values(?,?)";
+	public int insertBookType(BookType bt) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -49,15 +49,17 @@ public class BookTypeDAOMSI extends DAOBase implements BookTypeDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
 
 	private static final String updateTypeSQL="update BookType set TypeNO=?,TypeName=? where TypeId=?";
 	@Override
-	public void updateBookType(BookType bt) {
+	public int updateBookType(BookType bt) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -70,29 +72,33 @@ public class BookTypeDAOMSI extends DAOBase implements BookTypeDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
 
-	private static final String deleteTypeSQL="delete from BookType where TypeId=";
+	private static final String deleteTypeSQL="delete from BookType where TypeId=?";
 
 	@Override
-	public void deleteBookType(int bt) {
+	public int deleteBookType(int bt) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		try{
 			conn = getConnection();
-			String str = deleteTypeSQL+String.valueOf(bt);
-			pstm=conn.createStatement();
 			
-			pstm.executeUpdate(str);
+			pstm = conn.prepareStatement(deleteTypeSQL);
+			pstm.setInt(1, bt);
+			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
 

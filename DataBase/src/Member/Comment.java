@@ -7,16 +7,16 @@ public class Comment {
 	private int CommentId;
 	private int UserId;
 	private Timestamp CommentTime;
-	private String ISBN;
+	private int BookId;
 	private String CommentContext;
-	Comment(){
+	public Comment(){
 		
 	}
-	public Comment(int n1,int n2,String s2,String s3,Timestamp d){
+	public Comment(int n1,int n2,int n3,String s3,Timestamp d){
 		this.CommentId=n1;
 		this.CommentTime=d;
 		this.UserId=n2;
-		this.ISBN=s2;
+		this.BookId=n3;
 		this.CommentContext=s3;
 	}
 	public int getCommentId() {
@@ -32,12 +32,6 @@ public class Comment {
 		UserId = userId;
 	}
 	
-	public String getISBN() {
-		return ISBN;
-	}
-	public void setISBN(String iSBN) {
-		ISBN = iSBN;
-	}
 	public String getCommentContext() {
 		return CommentContext;
 	}
@@ -49,6 +43,12 @@ public class Comment {
 	}
 	public void setCommentTime(Timestamp commentTime) {
 		CommentTime = commentTime;
+	}
+	public int getBookId() {
+		return BookId;
+	}
+	public void setBookId(int bookId) {
+		BookId = bookId;
 	}
 	
 }

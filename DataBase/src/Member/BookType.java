@@ -5,7 +5,7 @@ public class BookType {
 	private int TypeId;
 	private String TypeNO;
 	private String TypeName;
-	BookType(){
+	public BookType(){
 		
 	}
 	public BookType(int n1,String s1,String s2){

@@ -13,7 +13,7 @@ public class BorrowInfoDAOMSI extends DAOBase implements BorrowInfoDAO {
 
 	private static final String insertBorrowInfoSQL="insert into BorrowInfo(BookId,UserId,BorrowTime) values(?,?,?)";
 	@Override
-	public void insertBorrowInfo(BorrowInfo bi) {
+	public int insertBorrowInfo(BorrowInfo bi) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -28,9 +28,11 @@ public class BorrowInfoDAOMSI extends DAOBase implements BorrowInfoDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 		
 
 	}
@@ -38,7 +40,7 @@ public class BorrowInfoDAOMSI extends DAOBase implements BorrowInfoDAO {
 	private static final String updateBorrowSQL="update BorrowInfo set BookId=?,UserId=?,BorrowTime=? where Id=?";
 
 	@Override
-	public void updateBorrowInfo(BorrowInfo bi) {
+	public int updateBorrowInfo(BorrowInfo bi) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -52,43 +54,48 @@ public class BorrowInfoDAOMSI extends DAOBase implements BorrowInfoDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
-	private static final String deleteBorrowSQL="delete from BorrowInfo where Id=";
+	private static final String deleteBorrowSQL="delete from BorrowInfo where Id=?";
 
 	@Override
-	public void deleteBorrowInfo(int bi) {
+	public int deleteBorrowInfo(int bi) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		try{
 			conn = getConnection();
-			String str = deleteBorrowSQL+String.valueOf(bi);
-			pstm=conn.createStatement();
 			
-			pstm.executeUpdate(str);
+			pstm = conn.prepareStatement(deleteBorrowSQL);
+			pstm.setInt(1, bi);
+
+			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 		
 
 	}
-	private static final String getBorrowSQL="select Id,BookId,UserId,BorrowTime from BorrowInfo where UserId=";
+	private static final String getBorrowSQL="select Id,BookId,UserId,BorrowTime from BorrowInfo where UserId=?";
 
 	@Override
 	public List<BorrowInfo> getBorrowInfo(int userId) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try{
 			conn = getConnection();
-			pstm=conn.createStatement();
-			String str = getBorrowSQL+userId;
-			rs=pstm.executeQuery(str);
+			pstm = conn.prepareStatement(getBorrowSQL);
+			pstm.setInt(1, userId);
+			rs=pstm.executeQuery();
 			List<BorrowInfo> bl=new ArrayList<BorrowInfo>();
 			BorrowInfo temp = null;
 			while(rs.next())
@@ -107,19 +114,20 @@ public class BorrowInfoDAOMSI extends DAOBase implements BorrowInfoDAO {
 		
 	}
 
-	private static final String getBorrowSQL2="select Id,BookId,UserId,BorrowTime from BorrowInfo where Id=";
+	private static final String getBorrowSQL2="select Id,BookId,UserId,BorrowTime from BorrowInfo where Id=?";
 
 	@Override
 	public BorrowInfo getBorrowInfo2(int bid) {
 		
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try{
 			conn = getConnection();
-			pstm=conn.createStatement();
-			String str = getBorrowSQL+bid;
-			rs=pstm.executeQuery(str);
+			pstm = conn.prepareStatement(getBorrowSQL2);
+			pstm.setInt(1, bid);
+			rs=pstm.executeQuery();
+			
 			BorrowInfo temp = null;
 			while(rs.next())
 			{

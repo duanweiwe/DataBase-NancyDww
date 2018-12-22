@@ -10,21 +10,21 @@ import Member.BookShelf;
 
 public class BookShelfDAOMSI extends DAOBase implements BookShelfDAO {
 
-	private static final String getShelfSQL="select Id,ShelfNo,ShelfName,Capacity,Location,RoomId from BookShelf where ShelfNo=";
+	private static final String getShelfSQL="select ShelfId,ShelfNo,ShelfName,Capacity,Location,RoomId from BookShelf where ShelfNo=?";
 	@Override
 	public BookShelf getBookShelf(String No) {
 		
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try{
 			conn = getConnection();
-			pstm=conn.createStatement();
-			String str = getShelfSQL+No;
-			rs=pstm.executeQuery(str);
+			pstm = conn.prepareStatement(getShelfSQL);
+			pstm.setString(1, No);
+			rs=pstm.executeQuery();
 			BookShelf temp = null;
 			while(rs.next())
-				temp = new BookShelf(rs.getInt("Id"),rs.getString("ShelfNo"),rs.getString("ShelfName"),rs.getInt("Capacity"),rs.getString("Location"),rs.getInt("RoomId"));
+				temp = new BookShelf(rs.getInt("ShelfId"),rs.getString("ShelfNo"),rs.getString("ShelfName"),rs.getInt("Capacity"),rs.getString("Location"),rs.getInt("RoomId"));
 			rs.close();
 			pstm.close();
 			conn.close();
@@ -37,7 +37,7 @@ public class BookShelfDAOMSI extends DAOBase implements BookShelfDAO {
 
 	private static final String insertShelfSQL="insert into BookShelf(ShelfNo,ShelfName,Capacity,Location,RoomId) values(?,?,?,?,?)";
 	@Override
-	public void insertBookShelf(BookShelf bs) {
+	public int insertBookShelf(BookShelf bs) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -52,15 +52,17 @@ public class BookShelfDAOMSI extends DAOBase implements BookShelfDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
-	private static final String updateShelfSQL="update BookShelf set ShelfNo=?,ShelfName=?,Capacity=?,Location=?,RoomId=? where Id=?";
+	private static final String updateShelfSQL="update BookShelf set ShelfNo=?,ShelfName=?,Capacity=?,Location=?,RoomId=? where ShelfId=?";
 
 	@Override
-	public void updateBookShelf(BookShelf bs) {
+	public int updateBookShelf(BookShelf bs) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -76,16 +78,18 @@ public class BookShelfDAOMSI extends DAOBase implements BookShelfDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
 	
-	private static final String deleteShelfSQL="delete from BookShelf where Id=";
+	private static final String deleteShelfSQL="delete from BookShelf where ShelfId=";
 
 	@Override
-	public void deleteBookShelf(int bs) {
+	public int deleteBookShelf(int bs) {
 		Connection conn = null;
 		Statement pstm = null;
 		try{
@@ -96,9 +100,11 @@ public class BookShelfDAOMSI extends DAOBase implements BookShelfDAO {
 			pstm.executeUpdate(str);
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
 

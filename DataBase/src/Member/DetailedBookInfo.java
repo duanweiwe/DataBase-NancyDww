@@ -13,10 +13,11 @@ public class DetailedBookInfo {
 	private String LoaderShape;
 	private String PublishingInformation;
 	private String Topic;
-	DetailedBookInfo(){
+	private String SecondAuthor;
+	public DetailedBookInfo(){
 		
 	}
-	public DetailedBookInfo(int id,int bid,String a,String d,float p,String c,String contact,String i,String l,String pi,String t){
+	public DetailedBookInfo(int id,int bid,String a,String d,float p,String c,String contact,String i,String l,String pi,String t,String a2){
 		this.Id=id;
 		this.BookId=bid;
 		this.Author=a;
@@ -28,6 +29,7 @@ public class DetailedBookInfo {
 		this.LoaderShape=l;
 		this.PublishingInformation=pi;
 		this.Topic=t;
+		this.SecondAuthor=a2;
 		
 	}
 	public int getBookId() {
@@ -96,6 +98,12 @@ public class DetailedBookInfo {
 	}
 	public void setPublishingInformation(String publishingInformation) {
 		PublishingInformation = publishingInformation;
+	}
+	public String getSecondAuthor() {
+		return SecondAuthor;
+	}
+	public void setSecondAuthor(String secondAuthor) {
+		SecondAuthor = secondAuthor;
 	}
 	
 }

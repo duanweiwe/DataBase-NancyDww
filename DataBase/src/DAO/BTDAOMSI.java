@@ -16,7 +16,7 @@ public class BTDAOMSI extends DAOBase implements BTDAO {
 	private static final String insertBTSQL="insert into BT(TypeId,BookId) values(?,?)";
 
 	@Override
-	public void insertBT(BT bt) {
+	public int insertBT(BT bt) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -29,15 +29,17 @@ public class BTDAOMSI extends DAOBase implements BTDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
 	private static final String updateBTSQL="update BT set TypeId=?,BookId=? where Id=?";
 
 	@Override
-	public void updateBT(BT bt) {
+	public int updateBT(BT bt) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -50,45 +52,50 @@ public class BTDAOMSI extends DAOBase implements BTDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 
 	}
-	private static final String deleteBTSQL="delete from BT where Id=";
+	private static final String deleteBTSQL="delete from BT where Id=?";
 	@Override
-	public void deleteBT(int id) {
+	public int deleteBT(int id) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		try{
 			conn = getConnection();
-			String str = deleteBTSQL+String.valueOf(id);
-			pstm=conn.createStatement();
 			
-			pstm.executeUpdate(str);
+			pstm = conn.prepareStatement(deleteBTSQL);
+			pstm.setInt(1, id);
+			
+			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 	}
-	private static final String getBTSQL="select Id,BookId,TypeId from BT where BookId=";
+	private static final String getBTSQL="select Id,TypeId,BookId from BT where BookId=?";
 	@Override
 	public List<BT> getBT(int bid) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try{
 			conn = getConnection();
-			pstm=conn.createStatement();
-			String str = getBTSQL+bid;
-			rs=pstm.executeQuery(str);
+			pstm = conn.prepareStatement(getBTSQL);
+			pstm.setInt(1, bid);
+			rs=pstm.executeQuery();
 			List<BT> bl=new ArrayList<BT>();
 			BT temp = null;
 			while(rs.next())
 			{
-				temp = new BT(rs.getInt("Id"),rs.getInt("BookId"),rs.getInt("TypeId"));
+				temp = new BT(rs.getInt("Id"),rs.getInt("TypeId"),rs.getInt("BookId"));
 				bl.add(temp);
 			}
 			rs.close();
@@ -101,22 +108,22 @@ public class BTDAOMSI extends DAOBase implements BTDAO {
 		return null;
 		
 	}
-	private static final String getBTSQL2="select Id,BookId,TypeId from BT where TypeId=";
+	private static final String getBTSQL2="select Id,TypeId,BookId from BT where TypeId=?";
 	@Override
 	public List<BT> getBT2(int Tid) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try{
 			conn = getConnection();
-			pstm=conn.createStatement();
-			String str = getBTSQL+Tid;
-			rs=pstm.executeQuery(str);
+			pstm = conn.prepareStatement(getBTSQL2);
+			pstm.setInt(1, Tid);
+			rs=pstm.executeQuery();
 			List<BT> bl=new ArrayList<BT>();
 			BT temp = null;
 			while(rs.next())
 			{
-				temp = new BT(rs.getInt("Id"),rs.getInt("BookId"),rs.getInt("TypeId"));
+				temp = new BT(rs.getInt("Id"),rs.getInt("TypeId"),rs.getInt("BookId"));
 				bl.add(temp);
 			}
 			rs.close();
@@ -128,6 +135,6 @@ public class BTDAOMSI extends DAOBase implements BTDAO {
 		}
 		return null;
 	}
-	
 
+	
 }

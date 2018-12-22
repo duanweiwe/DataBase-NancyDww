@@ -3,9 +3,9 @@ import Member.*;
 import java.util.*;
 
 public interface RoomDAO {
-	public void insertRoom(Room m);
-	public void updateRoom(Room m);
-	public void deleteRoom(int id);
+	public int insertRoom(Room m);
+	public int updateRoom(Room m);
+	public int deleteRoom(int id);
 	public Room getRoom(int id);
 	public List<Room> getRoom();
 

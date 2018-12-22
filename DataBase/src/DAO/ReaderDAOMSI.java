@@ -13,7 +13,7 @@ public class ReaderDAOMSI extends DAOBase implements ReaderDAO {
 	private static final String insertReaderSQL="insert into Reader(UserName,Password,UserType,Email,BarCode,IDCard,Sex,Phone,BorrowTimes) values(?,?,?,?,?,?,?,?,?)";
 
 	@Override
-	public void insertReader(Reader temp) {
+	public int insertReader(Reader temp) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -33,15 +33,17 @@ public class ReaderDAOMSI extends DAOBase implements ReaderDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
 	private static final String updateReaderSQL="update Reader set UserName=?,Password=?,UserType=?,Email=?,BarCode=?,IDCard=?,Sex=?,Phone=?,BorrowTimes=? where UserId=?";
 
 	@Override
-	public void updateReader(Reader temp) {
+	public int updateReader(Reader temp) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -62,10 +64,12 @@ public class ReaderDAOMSI extends DAOBase implements ReaderDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 
+		return -1;
 	}
 	
 	private static final String getReaderSQL="select UserId,UserName,Password,UserType,Email,BarCode,IDCard,Sex,Phone,BorrowTimes from Reader where UserId=";
@@ -95,7 +99,7 @@ public class ReaderDAOMSI extends DAOBase implements ReaderDAO {
 	}
 	private static final String deleteReaderSQL="delete from Reader where UserId=";
 
-	public void deleteReader(int id){
+	public int deleteReader(int id){
 		Connection conn = null;
 		Statement pstm = null;
 		try{
@@ -106,9 +110,11 @@ public class ReaderDAOMSI extends DAOBase implements ReaderDAO {
 			pstm.executeUpdate(str);
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 	}
 
 }

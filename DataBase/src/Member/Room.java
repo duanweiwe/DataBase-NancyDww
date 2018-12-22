@@ -8,7 +8,7 @@ public class Room {
 	private String RoomName;
 	private String RoomLocation;
 	private int RoomCapacity;
-	Room(){
+	public Room(){
 		
 	}
 	public Room(int id,String No,String na,String l,int c){

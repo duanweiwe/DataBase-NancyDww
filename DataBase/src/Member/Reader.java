@@ -12,7 +12,7 @@ public class Reader {
 	private String Sex;
 	private String Phone;
 	private int BorrowTimes;
-	Reader(){}
+	public Reader(){}
 	public Reader(int u,String name,String p,String type,String e,String b,String id,String s,String ph,int bt){
 		this.UserId=u;
 		this.UserName=name;

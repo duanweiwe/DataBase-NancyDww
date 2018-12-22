@@ -13,7 +13,7 @@ public class ReturnInfoDAOMSI extends DAOBase implements ReturnInfoDAO {
 	private static final String insertReturnSQL="insert into ReturnInfo(UserId,BookId,ReturnTime) values(?,?,?)";
 
 	@Override
-	public void insertReturnInfo(ReturnInfo ri) {
+	public int insertReturnInfo(ReturnInfo ri) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -29,15 +29,17 @@ public class ReturnInfoDAOMSI extends DAOBase implements ReturnInfoDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
 	private static final String updateReturnSQL="update ReturnInfo set UserId=?,BookId=?,ReturnTime=? where Id=?";
 
 	@Override
-	public void updateReturnInfo(ReturnInfo ri) {
+	public int updateReturnInfo(ReturnInfo ri) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -51,41 +53,45 @@ public class ReturnInfoDAOMSI extends DAOBase implements ReturnInfoDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
-	private static final String deleteReturnSQL="delete from ReturnInfo where Id=";
+	private static final String deleteReturnSQL="delete from ReturnInfo where Id=?";
 	@Override
-	public void deleteReturnInfo(int id) {
+	public int deleteReturnInfo(int id) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		try{
 			conn = getConnection();
-			String str = deleteReturnSQL+id;
-			pstm=conn.createStatement();
 			
-			pstm.executeUpdate(str);
+			pstm=conn.prepareStatement(deleteReturnSQL);
+			pstm.setInt(1, id);
+			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
-	private static final String getReturnSQL="select Id,UserId,BookId,ReturnTime from ReturnInfo where Id=";
+	private static final String getReturnSQL="select Id,UserId,BookId,ReturnTime from ReturnInfo where Id=?";
 
 	@Override
 	public ReturnInfo getReturnInfo(int id) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try{
 			conn = getConnection();
-			pstm=conn.createStatement();
-			String str = getReturnSQL+id;
-			rs=pstm.executeQuery(str);
+			pstm=conn.prepareStatement(getReturnSQL);
+			pstm.setInt(1, id);
+			rs=pstm.executeQuery();
 			
 			ReturnInfo temp = null;
 			while(rs.next())

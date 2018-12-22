@@ -3,9 +3,9 @@ import java.util.*;
 import Member.*;
 
 public interface ReservationDAO {
-	public void insertReservation(Reservation r);
-	public void updateReservation(Reservation r);
-	public void deleteReservation(int id);
+	public int insertReservation(Reservation r);
+	public int updateReservation(Reservation r);
+	public int deleteReservation(int id);
 	public List<Reservation> getReservation(int uid,int bid);
 	public Reservation getReservation(int id);
 

@@ -5,12 +5,12 @@ public class BookInfo {
 	private int BookId;
 	private String ISBN;
 	private String BookName;
-	private int ShelfId;
+	private String ShelfId;
 	private String BookStatus;
-	BookInfo(){
+	public BookInfo(){
 		
 	}
-	public BookInfo(int id,String s1,String s2,int n,String s3){
+	public BookInfo(int id,String s1,String s2,String n,String s3){
 		this.BookId=id;
 		this.ISBN=s1;
 		this.BookName=s2;
@@ -35,10 +35,10 @@ public class BookInfo {
 	public void setBookName(String bookName) {
 		BookName = bookName;
 	}
-	public int getShelfId() {
+	public String getShelfId() {
 		return ShelfId;
 	}
-	public void setShelfId(int shelfId) {
+	public void setShelfId(String shelfId) {
 		ShelfId = shelfId;
 	}
 	public String getBookStatus() {

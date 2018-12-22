@@ -16,7 +16,7 @@ public class RoomDAOMSI extends DAOBase implements RoomDAO {
 	private static final String insertRoomSQL="insert into Room(RoomNo,RoomName,RoomLocation,RoomCapacity) values(?,?,?,?)";
 
 	@Override
-	public void insertRoom(Room m) {
+	public int insertRoom(Room m) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -33,15 +33,17 @@ public class RoomDAOMSI extends DAOBase implements RoomDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
 	private static final String updateRoomSQL="update Room set RoomNo=?,RoomName=?,RoomLocation=?,RoomCapacity=? where RoomId=?";
 
 	@Override
-	public void updateRoom(Room m) {
+	public int updateRoom(Room m) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -56,41 +58,44 @@ public class RoomDAOMSI extends DAOBase implements RoomDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
-	private static final String deleteRoomSQL="delete from Room where RoomId=";
+	private static final String deleteRoomSQL="delete from Room where RoomId=?";
 	@Override
-	public void deleteRoom(int id) {
+	public int deleteRoom(int id) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		try{
 			conn = getConnection();
-			String str = deleteRoomSQL+String.valueOf(id);
-			pstm=conn.createStatement();
-			
-			pstm.executeUpdate(str);
+			pstm=conn.prepareStatement(deleteRoomSQL);
+			pstm.setInt(1, id);
+			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
-	private static final String getRoomSQL="select RoomId,RoomNo,RoomName,RoomLocation,RoomCapacity from Room where RoomId=";
+	private static final String getRoomSQL="select RoomId,RoomNo,RoomName,RoomLocation,RoomCapacity from Room where RoomId=?";
 
 	@Override
 	public Room getRoom(int id) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try{
 			conn = getConnection();
-			pstm=conn.createStatement();
-			String str = getRoomSQL+id;
-			rs=pstm.executeQuery(str);
+			pstm=conn.prepareStatement(getRoomSQL);
+			pstm.setInt(1, id);
+			rs=pstm.executeQuery();
 			Room temp = null;
 			while(rs.next())
 				temp = new Room(rs.getInt("RoomId"),rs.getString("RoomNo"),rs.getString("RoomName"),rs.getString("RoomLocation"),rs.getInt("RoomCapacity"));

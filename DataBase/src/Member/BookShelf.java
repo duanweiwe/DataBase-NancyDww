@@ -7,7 +7,7 @@ public class BookShelf {
 	private String Location;
 	private int RoomId;
 	private int Capacity;
-	BookShelf(){
+	public BookShelf(){
 		
 	}
 	public BookShelf(int n1,String s1,String s2,int n2,String s3,int n3 ){

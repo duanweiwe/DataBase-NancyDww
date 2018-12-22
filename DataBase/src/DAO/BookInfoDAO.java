@@ -3,9 +3,9 @@ import Member.*;
 import java.util.List;
 public interface BookInfoDAO 
 {
-	public void insertBookInfo(BookInfo book);
-	public void updateBookInfo(BookInfo book);
-	public void deleteBookInfo(BookInfo book);
+	public int insertBookInfo(BookInfo book);
+	public int updateBookInfo(BookInfo book);
+	public int deleteBookInfo(BookInfo book);
 	public BookInfo getBookInfo(int id);
 	public BookInfo getBookInfo(String BookName);
 	

@@ -15,7 +15,7 @@ public class ReservationDAOMSI extends DAOBase implements ReservationDAO {
 	private static final String insertReservationSQL="insert into Reservation(UserId,BookId,ReserveTime) values(?,?,?)";
 
 	@Override
-	public void insertReservation(Reservation r) {
+	public int insertReservation(Reservation r) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -31,14 +31,16 @@ public class ReservationDAOMSI extends DAOBase implements ReservationDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
 	private static final String updateReservationSQL="update Reservation set UserId=?,BookId=?,ReserveTime=? where RId=?";
 	@Override
-	public void updateReservation(Reservation r) {
+	public int updateReservation(Reservation r) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try{
@@ -52,31 +54,35 @@ public class ReservationDAOMSI extends DAOBase implements ReservationDAO {
 			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
-	private static final String deleteReservationSQL="delete from Reservation where RId=";
+	private static final String deleteReservationSQL="delete from Reservation where RId=?";
 
 	@Override
-	public void deleteReservation(int id) {
+	public int deleteReservation(int id) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		try{
 			conn = getConnection();
-			String str = deleteReservationSQL+id;
-			pstm=conn.createStatement();
 			
-			pstm.executeUpdate(str);
+			pstm=conn.prepareStatement(deleteReservationSQL);
+			pstm.setInt(1, id);
+			pstm.executeUpdate();
 			pstm.close();
 			conn.close();
+			return 1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return -1;
 
 	}
-	private static final String getReservationSQL="select RId,UserId,BookId,ReserveTime from Reservation where RId=";
+	private static final String getReservationSQL="select RId,UserId,BookId,ReserveTime from Reservation where RId=?";
 	private static final String getReservationSQL2="select RId,UserId,BookId,ReserveTime from Reservation where UserId=? and BookId=?";
 
 	@Override
@@ -113,13 +119,13 @@ public class ReservationDAOMSI extends DAOBase implements ReservationDAO {
 	@Override
 	public Reservation getReservation(int id) {
 		Connection conn = null;
-		Statement pstm = null;
+		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try{
 			conn = getConnection();
-			pstm=conn.createStatement();
-			String str = getReservationSQL+id;
-			rs=pstm.executeQuery(str);
+			pstm=conn.prepareStatement(getReservationSQL);
+			pstm.setInt(1, id);
+			rs=pstm.executeQuery();
 			
 			Reservation temp = null;
 			while(rs.next())

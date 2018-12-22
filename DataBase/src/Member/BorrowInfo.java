@@ -8,7 +8,7 @@ public class BorrowInfo {
 	private int BookId;
 	private int UserId;
 	private Date BorrowTime;
-	BorrowInfo(){
+	public BorrowInfo(){
 		
 	}
 	public BorrowInfo(int n1,int n2,int n3,Date d){

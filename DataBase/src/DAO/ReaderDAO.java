@@ -6,8 +6,8 @@ import Member.*;
 
 public interface ReaderDAO 
 {
-	public void insertReader(Reader temp);
-	public void updateReader(Reader temp);
-	public void deleteReader(int id);
+	public int insertReader(Reader temp);
+	public int updateReader(Reader temp);
+	public int deleteReader(int id);
 	public Reader getReader(int id);
 }

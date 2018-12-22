@@ -8,7 +8,7 @@ public class ReturnInfo {
 	private int UserId;
 	private int BookId;
 	private Date ReturnTime;
-	ReturnInfo(){
+	public ReturnInfo(){
 		
 	}
     public ReturnInfo(int id,int uid,int bid,Date d){
